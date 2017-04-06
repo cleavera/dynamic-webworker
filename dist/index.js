@@ -1,5 +1,4 @@
 "use strict";
-var Fetch_helper_1 = require('./Services/Fetch.helper');
-exports.$fetch = Fetch_helper_1.$fetch;
-var Http_service_1 = require('./Services/Http.service');
-exports.Http = Http_service_1.Http;
+Object.defineProperty(exports, "__esModule", { value: true });
+var WebWorker_service_1 = require("./Services/WebWorker.service");
+exports.DynamicWebWorker = WebWorker_service_1.DynamicWebWorker;

@@ -1,9 +1,10 @@
 "use strict";
-var Blob_service_1 = require('./Blob.service');
-var UniqueId_helper_1 = require('./UniqueId.helper');
-var Partial_helper_1 = require('./Partial.helper');
-var $WebWorker = (function () {
-    function $WebWorker(service) {
+Object.defineProperty(exports, "__esModule", { value: true });
+var Blob_service_1 = require("./Blob.service");
+var UniqueId_helper_1 = require("./UniqueId.helper");
+var Partial_helper_1 = require("./Partial.helper");
+var DynamicWebWorker = (function () {
+    function DynamicWebWorker(service) {
         var _this = this;
         var workerBlob = this._spawnWorker(service);
         this._blob = workerBlob.blob;
@@ -14,7 +15,11 @@ var $WebWorker = (function () {
             _this._promise[data.callId].resolve(data.result);
         };
     }
-    $WebWorker.prototype._callMethod = function (methodName) {
+    DynamicWebWorker.prototype.$terminate = function () {
+        this._worker.terminate();
+        this._blob.remove();
+    };
+    DynamicWebWorker.prototype._callMethod = function (methodName) {
         var _this = this;
         var params = [];
         for (var _i = 1; _i < arguments.length; _i++) {
@@ -30,7 +35,7 @@ var $WebWorker = (function () {
             });
         });
     };
-    $WebWorker.prototype._spawnWorker = function (functions) {
+    DynamicWebWorker.prototype._spawnWorker = function (functions) {
         var _this = this;
         var workerSource = 'var _commands = {};\n\n', funcs = Object.keys(functions);
         funcs.forEach(function (name) {
@@ -44,6 +49,6 @@ var $WebWorker = (function () {
             worker: new Worker(workerBlob.getURL())
         };
     };
-    return $WebWorker;
+    return DynamicWebWorker;
 }());
-exports.$WebWorker = $WebWorker;
+exports.DynamicWebWorker = DynamicWebWorker;

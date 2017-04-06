@@ -1,9 +1,10 @@
 {
-  "name": "webworker-http",
+  "name": "dynamic-webworker",
   "version": "1.1.0",
-  "description": "Allows ajax calls through a web worker",
+  "description": "Allows spawning of dynamic webworkers",
   "main": "dist/index.js",
   "scripts": {
+    "compile": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Anthony Cleaver",

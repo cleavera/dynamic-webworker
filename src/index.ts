@@ -1,7 +1,5 @@
-import {$fetch} from './Services/Fetch.helper';
-import {Http} from './Services/Http.service'
+import {DynamicWebWorker} from './Services/WebWorker.service';
 
 export {
-    $fetch,
-    Http
+    DynamicWebWorker
 }

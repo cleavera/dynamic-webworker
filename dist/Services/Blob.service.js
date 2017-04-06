@@ -1,4 +1,5 @@
 "use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var $Blob = (function () {
     function $Blob(blob) {
         this.blob = blob;

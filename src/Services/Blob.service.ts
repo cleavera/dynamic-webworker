@@ -8,7 +8,7 @@ export class $Blob {
   }
 
   encode() {
-    var reader = new FileReader();
+    let reader = new FileReader();
 
     reader.readAsDataURL(this.blob);
 

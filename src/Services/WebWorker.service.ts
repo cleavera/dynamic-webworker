@@ -2,28 +2,33 @@ import {$Blob} from './Blob.service'
 import {$uniqueId} from './UniqueId.helper'
 import {$partial} from './Partial.helper'
 
-export class $WebWorker {
+export class DynamicWebWorker<T> {
   private _promise: any;
   private _blob: $Blob;
   private _worker: Worker;
 
-  constructor(service: any) {
-    var workerBlob = this._spawnWorker(service);
+  constructor(service: T) {
+    let workerBlob = this._spawnWorker(service);
 
     this._blob = workerBlob.blob;
     this._worker = workerBlob.worker;
     this._promise = {};
 
     this._worker.onmessage = e => {
-      var data = e.data;
+      let data = e.data;
 
       this._promise[data.callId].resolve(data.result);
     };
   }
 
+  $terminate(): void {
+    this._worker.terminate();
+    this._blob.remove();
+  }
+
   private _callMethod(methodName, ...params) {
     return new Promise((resolve, reject) => {
-      var id = $uniqueId('$WebWorkerCall');
+      let id = $uniqueId('$WebWorkerCall');
 
       this._promise[id] = { resolve: resolve, reject: reject };
 
@@ -36,7 +41,7 @@ export class $WebWorker {
   }
 
   private _spawnWorker(functions: any) {
-    var workerSource = 'var _commands = {};\n\n',
+    let workerSource = 'var _commands = {};\n\n',
       funcs = Object.keys(functions);
 
     funcs.forEach(name => {
@@ -56,7 +61,7 @@ export class $WebWorker {
         });
       });`;
 
-    var workerBlob = $Blob.fromString(workerSource);
+    let workerBlob = $Blob.fromString(workerSource);
 
     return {
       blob: workerBlob,
